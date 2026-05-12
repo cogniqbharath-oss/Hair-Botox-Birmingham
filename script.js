@@ -46,12 +46,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Simple mock responses
         setTimeout(() => {
-            if (text.toLowerCase().includes('price') || text.toLowerCase().includes('cost')) {
-                addMessage("Our Academy courses start from £499. Would you like me to send the full brochure via WhatsApp?");
-            } else if (text.toLowerCase().includes('date') || text.toLowerCase().includes('when')) {
+            const query = text.toLowerCase();
+            if (query.includes('price') || query.includes('cost')) {
+                addMessage("Academy courses start at £499. For treatments: Nanoplastia is £150-£250, and Hair Botox is £80-£150 depending on length. Which are you interested in?");
+            } else if (query.includes('date') || query.includes('when')) {
                 addMessage("Our next Nanoplastia Masterclass is on May 11th and 14th. You can book directly in the 'Secure Your Date' section!");
-            } else if (text.toLowerCase().includes('kit')) {
+            } else if (query.includes('kit')) {
                 addMessage("Yes! A professional Floractive kit (worth £250) is included with every Academy course.");
+            } else if (query.includes('location') || query.includes('where')) {
+                addMessage("We are located at The Cube in Birmingham. It's a premium venue with excellent facilities!");
+            } else if (query.includes('model')) {
+                addMessage("We are always looking for hair models! You can get a premium treatment for a fraction of the cost. Check the 'Book Model Slot' option in our booking form.");
+            } else if (query.includes('course') || query.includes('nanoplastia')) {
+                addMessage("Our Nanoplastia Masterclass is very popular! It covers the full technical application and includes certification. Would you like to see the curriculum?");
             } else {
                 addMessage("That's a great question. Let me connect you with a specialist, or you can book an intro call!");
             }
@@ -61,6 +68,21 @@ document.addEventListener('DOMContentLoaded', () => {
     sendChat.addEventListener('click', handleChat);
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') handleChat();
+    });
+
+    // --- Clear Chat ---
+    const clearChatBtn = document.getElementById('clear-chat');
+    clearChatBtn.addEventListener('click', () => {
+        chatMessages.innerHTML = '<div class="msg msg-bot">Chat cleared. How else can I help you?</div>';
+    });
+
+    // --- Suggestion Chips ---
+    const chips = document.querySelectorAll('.chip');
+    chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            chatInput.value = chip.textContent;
+            handleChat();
+        });
     });
 
     // --- Calendar Mockup Interaction ---

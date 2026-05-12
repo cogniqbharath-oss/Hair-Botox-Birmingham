@@ -14,6 +14,7 @@
     <nav>
         <div class="container nav-content">
             <a href="#" class="logo">
+                <img src="assets/logo.svg" alt="Floractive Logo">
                 FLORACTIVE <span>TRAINING</span>
             </a>
             <div class="nav-links">
@@ -187,11 +188,20 @@
 
     <div class="chat-box" id="chat-box">
         <div class="chat-header">
-            Floractive AI Assistant
-            <span style="float: right; cursor: pointer;" id="close-chat">&times;</span>
+            <span>Floractive AI Assistant</span>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <i class="fas fa-trash-alt" style="cursor: pointer; font-size: 0.9rem; opacity: 0.7;" id="clear-chat" title="Clear Chat"></i>
+                <span style="cursor: pointer; font-size: 1.5rem;" id="close-chat">&times;</span>
+            </div>
         </div>
         <div class="chat-messages" id="chat-messages">
             <div class="msg msg-bot">Hello! I'm your Floractive Academy assistant. How can I help you today?</div>
+        </div>
+        <div class="chat-chips" id="chat-chips">
+            <div class="chip">Nanoplastia Course</div>
+            <div class="chip">Treatment Prices</div>
+            <div class="chip">Book Model Slot</div>
+            <div class="chip">Location</div>
         </div>
         <div class="chat-input">
             <input type="text" placeholder="Ask about courses, dates, kits..." id="chat-input-field">
@@ -203,7 +213,10 @@
     <footer>
         <div class="container footer-content">
             <div class="footer-col">
-                <h4 class="luxury-text">FLORACTIVE</h4>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem;">
+                    <img src="assets/logo.svg" alt="Floractive Logo" style="height: 30px;">
+                    <h4 class="luxury-text" style="margin-bottom: 0;">FLORACTIVE</h4>
+                </div>
                 <p style="color: var(--text-muted); font-size: 0.9rem;">Birmingham's Advanced Hair restoration Academy & Treatment Center.</p>
             </div>
             <div class="footer-col">
