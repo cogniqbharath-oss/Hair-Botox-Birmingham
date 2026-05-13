@@ -22,12 +22,12 @@ export default {
       let message;
       try {
         const json = JSON.parse(bodyText);
-        message = json.message;
+        message = json.message || bodyText;
       } catch (e) {
-        message = bodyText; // Fallback if it's just raw text
+        message = bodyText;
       }
       
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemma-3-27b-it:generateContent?key=${env.GEMINI_API_KEY || 'API_KEY_botox'}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${env.GEMINI_API_KEY || 'API_KEY_botox'}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,15 +45,15 @@ export default {
       });
 
       const data = await response.json();
+      
       if (!response.ok) {
-        console.error('Gemini API Error:', data);
-        return new Response(JSON.stringify({ error: "Gemini API error", details: data }), {
+        return new Response(JSON.stringify({ error: "API error", details: data }), {
           status: response.status,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       
-      const botResponse = data.candidates[0].content.parts[0].text;
+      const botResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm not sure how to answer that right now.";
 
       return new Response(JSON.stringify({ response: botResponse }), {
         headers: {
@@ -62,7 +62,6 @@ export default {
         },
       });
     } catch (error) {
-      console.error('Worker Catch-all Error:', error);
       return new Response(JSON.stringify({ error: error.message }), {
         status: 500,
         headers: {

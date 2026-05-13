@@ -53,8 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             console.log('Sending request to worker...');
-            const response = await fetch('https://delicate-mode-60b7.cogniq-bharath.workers.dev', {
+            const response = await fetch(`https://delicate-mode-60b7.cogniq-bharath.workers.dev?cb=${Date.now()}`, {
                 method: 'POST',
+                mode: 'cors',
                 headers: {
                     'Content-Type': 'text/plain',
                 },
