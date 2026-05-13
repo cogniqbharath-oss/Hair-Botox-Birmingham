@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://delicate-mode-60b7.cogniq-bharath.workers.dev/', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'text/plain',
                 },
                 body: JSON.stringify({ message: text }),
             });

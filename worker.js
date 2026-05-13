@@ -1,13 +1,16 @@
 export default {
   async fetch(request, env) {
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
+      "Access-Control-Max-Age": "86400",
+    };
+
     if (request.method === "OPTIONS") {
       return new Response(null, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
-          "Access-Control-Max-Age": "86400",
-        },
+        status: 204,
+        headers: corsHeaders,
       });
     }
 
@@ -16,7 +19,14 @@ export default {
     }
 
     try {
-      const { message } = await request.json();
+      const bodyText = await request.text();
+      let message;
+      try {
+        const json = JSON.parse(bodyText);
+        message = json.message;
+      } catch (e) {
+        message = bodyText; // Fallback if it's just raw text
+      }
       
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemma-3-27b-it:generateContent?key=${env.GEMINI_API_KEY || 'API_KEY_botox'}`, {
         method: 'POST',
@@ -40,16 +50,16 @@ export default {
 
       return new Response(JSON.stringify({ response: botResponse }), {
         headers: {
+          ...corsHeaders,
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
         },
       });
     } catch (error) {
       return new Response(JSON.stringify({ error: error.message }), {
         status: 500,
         headers: {
+          ...corsHeaders,
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
         },
       });
     }
