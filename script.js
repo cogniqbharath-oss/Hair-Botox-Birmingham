@@ -37,32 +37,42 @@ document.addEventListener('DOMContentLoaded', () => {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    function handleChat() {
+    async function handleChat() {
         const text = chatInput.value.trim();
         if (!text) return;
 
         addMessage(text, true);
         chatInput.value = '';
 
-        // Simple mock responses
-        setTimeout(() => {
-            const query = text.toLowerCase();
-            if (query.includes('price') || query.includes('cost')) {
-                addMessage("Academy courses start at £499. For treatments: Nanoplastia is £150-£250, and Hair Botox is £80-£150 depending on length. Which are you interested in?");
-            } else if (query.includes('date') || query.includes('when')) {
-                addMessage("Our next Nanoplastia Masterclass is on May 11th and 14th. You can book directly in the 'Secure Your Date' section!");
-            } else if (query.includes('kit')) {
-                addMessage("Yes! A professional Floractive kit (worth £250) is included with every Academy course.");
-            } else if (query.includes('location') || query.includes('where')) {
-                addMessage("We are located at The Cube in Birmingham. It's a premium venue with excellent facilities!");
-            } else if (query.includes('model')) {
-                addMessage("We are always looking for hair models! You can get a premium treatment for a fraction of the cost. Check the 'Book Model Slot' option in our booking form.");
-            } else if (query.includes('course') || query.includes('nanoplastia')) {
-                addMessage("Our Nanoplastia Masterclass is very popular! It covers the full technical application and includes certification. Would you like to see the curriculum?");
+        // Add a "typing" indicator
+        const typingMsg = document.createElement('div');
+        typingMsg.className = 'msg msg-bot';
+        typingMsg.textContent = '...';
+        chatMessages.appendChild(typingMsg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        try {
+            const response = await fetch('https://delicate-mode-60b7.cogniq-bharath.workers.dev/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: text }),
+            });
+
+            const data = await response.json();
+            chatMessages.removeChild(typingMsg);
+            
+            if (data.response) {
+                addMessage(data.response);
             } else {
-                addMessage("That's a great question. Let me connect you with a specialist, or you can book an intro call!");
+                addMessage("I'm sorry, I'm having a bit of trouble connecting. Could you try again?");
             }
-        }, 1000);
+        } catch (error) {
+            chatMessages.removeChild(typingMsg);
+            addMessage("Oops! Something went wrong. I'm here to help, but my connection is acting up.");
+            console.error('Chat error:', error);
+        }
     }
 
     sendChat.addEventListener('click', handleChat);
