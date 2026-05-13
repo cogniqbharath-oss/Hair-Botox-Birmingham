@@ -3,8 +3,7 @@ export default {
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
-      "Access-Control-Max-Age": "86400",
+      "Access-Control-Allow-Headers": "Content-Type",
     };
 
     if (request.method === "OPTIONS") {
@@ -46,6 +45,14 @@ export default {
       });
 
       const data = await response.json();
+      if (!response.ok) {
+        console.error('Gemini API Error:', data);
+        return new Response(JSON.stringify({ error: "Gemini API error", details: data }), {
+          status: response.status,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      
       const botResponse = data.candidates[0].content.parts[0].text;
 
       return new Response(JSON.stringify({ response: botResponse }), {
@@ -55,6 +62,7 @@ export default {
         },
       });
     } catch (error) {
+      console.error('Worker Catch-all Error:', error);
       return new Response(JSON.stringify({ error: error.message }), {
         status: 500,
         headers: {
