@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
         try {
+            console.log('Sending request to worker...');
             const response = await fetch('https://delicate-mode-60b7.cogniq-bharath.workers.dev/', {
                 method: 'POST',
                 headers: {
@@ -59,6 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify({ message: text }),
             });
+
+            if (!response.ok) {
+                console.error('Worker responded with status:', response.status);
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
 
             const data = await response.json();
             chatMessages.removeChild(typingMsg);
@@ -70,8 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             chatMessages.removeChild(typingMsg);
-            addMessage("Oops! Something went wrong. I'm here to help, but my connection is acting up.");
-            console.error('Chat error:', error);
+            addMessage("Oops! Connection issue. Please check your internet or try again in a moment.");
+            console.error('Chat error details:', error);
         }
     }
 
