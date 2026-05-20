@@ -11,6 +11,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- Mobile Menu Toggle ---
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        menuToggle.querySelector('i').classList.toggle('fa-bars');
+        menuToggle.querySelector('i').classList.toggle('fa-times');
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            menuToggle.querySelector('i').classList.add('fa-bars');
+            menuToggle.querySelector('i').classList.remove('fa-times');
+        });
+    });
+
     // --- Chatbot Toggle ---
     const chatTrigger = document.getElementById('chat-trigger');
     const chatBox = document.getElementById('chat-box');
@@ -53,9 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             console.log('Sending request to worker...');
-            const response = await fetch(`https://delicate-mode-60b7.cogniq-bharath.workers.dev?cb=${Date.now()}`, {
+            const response = await fetch('https://delicate-mode-60b7.cogniq-bharath.workers.dev', {
                 method: 'POST',
                 mode: 'cors',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'text/plain',
                 },

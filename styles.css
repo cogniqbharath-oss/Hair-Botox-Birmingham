@@ -60,6 +60,13 @@ nav {
     align-items: center;
 }
 
+.menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    color: var(--primary);
+    cursor: pointer;
+}
+
 .logo {
     display: flex;
     align-items: center;
@@ -97,6 +104,7 @@ nav {
 /* --- Hero Section --- */
 .hero {
     height: 100vh;
+    height: 100dvh;
     display: flex;
     align-items: center;
     position: relative;
@@ -264,7 +272,7 @@ nav {
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 0.5rem;
+    gap: 0.3rem;
 }
 
 .day {
@@ -504,23 +512,46 @@ footer {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
+    .training-image {
+        order: -1;
+    }
     .hero-content h1 {
         font-size: 3rem;
     }
     section {
-        padding: 4rem 0;
+        padding: 3rem 0;
+    }
+    .luxury-text {
+        font-size: 2.5rem !important;
     }
 }
 
 @media (max-width: 768px) {
     .logo {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
     .logo img {
-        height: 30px;
+        height: 25px;
+    }
+    .menu-toggle {
+        display: block;
     }
     .nav-links {
-        display: none;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: var(--dark-surface);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: var(--transition);
+        z-index: 1000;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    }
+    .nav-links.active {
+        right: 0;
     }
     .footer-content {
         grid-template-columns: 1fr 1fr;
@@ -533,6 +564,11 @@ footer {
     }
     .cta-group {
         flex-direction: column;
+        width: 100%;
+    }
+    .cta-group .btn {
+        width: 100%;
+        text-align: center;
     }
     .chat-box {
         width: 90%;
