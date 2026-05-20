@@ -41,11 +41,13 @@ export default {
         },
         body: JSON.stringify({
           contents: [{
+            role: "user",
             parts: [{
               text: `You are a friendly human assistant for Floractive Training Academy in Birmingham. 
               Keep your responses simple, helpful, and very human-like. 
               Answer questions about Nanoplastia courses, Hair Botox treatments, location (The Cube, Birmingham), and prices.
-              User message: ${message}`
+              
+              User question: ${message || 'Hello'}`
             }]
           }]
         })
