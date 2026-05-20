@@ -34,7 +34,7 @@ export default {
         message = bodyText;
       }
       
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${env.GEMINI_API_KEY || 'API_KEY_botox'}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemma-3-27b-it:generateContent?key=${env.GEMINI_API_KEY || 'API_KEY_botox'}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
