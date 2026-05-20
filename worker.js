@@ -8,6 +8,7 @@ export default {
       "Access-Control-Allow-Credentials": "true",
     };
 
+    // Handle Preflight
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
@@ -15,8 +16,12 @@ export default {
       });
     }
 
+    // Only allow POST for the actual chat
     if (request.method !== "POST") {
-      return new Response("Method Not Allowed", { status: 405 });
+      return new Response("Method Not Allowed", { 
+        status: 405, 
+        headers: corsHeaders 
+      });
     }
 
     try {
@@ -49,13 +54,13 @@ export default {
       const data = await response.json();
       
       if (!response.ok) {
-        return new Response(JSON.stringify({ error: "API error", details: data }), {
+        return new Response(JSON.stringify({ error: "Gemini API error", details: data }), {
           status: response.status,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       
-      const botResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm not sure how to answer that right now.";
+      const botResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm having a little trouble thinking of the right words. Could you ask me something else?";
 
       return new Response(JSON.stringify({ response: botResponse }), {
         headers: {
