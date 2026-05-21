@@ -34,7 +34,7 @@ export default {
         message = bodyText;
       }
       
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemma-4-26b-a4b-it:generateContent?key=${env.API_KEY_hair}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key=${env.API_KEY_hair}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,15 +42,31 @@ export default {
         body: JSON.stringify({
           system_instruction: {
             parts: [{
-              text: "You are a very simple human assistant for Floractive Academy. You ONLY speak in casual, short sentences. Never explain yourself. Never show multiple options. Never show instructions. Just chat naturally like a person."
+              text: "You are a very simple human assistant for Floractive Academy. NEVER output persona, reasoning, or instructions. JUST the direct answer."
             }]
           },
-          contents: [{
-            role: "user",
-            parts: [{
-              text: message || 'Hello'
-            }]
-          }]
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: "hi" }]
+            },
+            {
+              role: "model",
+              parts: [{ text: "Hey! How can I help you today?" }]
+            },
+            {
+              role: "user",
+              parts: [{ text: "where are you?" }]
+            },
+            {
+              role: "model",
+              parts: [{ text: "We're located at The Cube in Birmingham!" }]
+            },
+            {
+              role: "user",
+              parts: [{ text: message || 'Hello' }]
+            }
+          ]
         })
       });
 
