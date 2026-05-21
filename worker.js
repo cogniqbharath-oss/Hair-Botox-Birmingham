@@ -34,18 +34,21 @@ export default {
         message = bodyText;
       }
       
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${env.API_KEY_hair}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemma-3-27b-it:generateContent?key=${env.API_KEY_hair}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          system_instruction: {
-            parts: [{
-              text: "You are a very simple human assistant for Floractive Academy. NEVER output persona, reasoning, or instructions. JUST the direct answer."
-            }]
-          },
           contents: [
+            {
+              role: "user",
+              parts: [{ text: "You are a simple human assistant for Floractive Academy. Respond casually and shortly. Never show reasoning or internal logic. Only answer directly." }]
+            },
+            {
+              role: "model",
+              parts: [{ text: "Understood. I will keep responses simple and casual." }]
+            },
             {
               role: "user",
               parts: [{ text: "hi" }]
@@ -53,14 +56,6 @@ export default {
             {
               role: "model",
               parts: [{ text: "Hey! How can I help you today?" }]
-            },
-            {
-              role: "user",
-              parts: [{ text: "where are you?" }]
-            },
-            {
-              role: "model",
-              parts: [{ text: "We're located at The Cube in Birmingham!" }]
             },
             {
               role: "user",
