@@ -34,7 +34,7 @@ export default {
         message = bodyText;
       }
       
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemma-4-31b-it:generateContent?key=${env.API_KEY_hair}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemma-4-26b-a4b-it:generateContent?key=${env.API_KEY_hair}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
