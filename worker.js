@@ -43,10 +43,9 @@ export default {
           contents: [{
             role: "user",
             parts: [{
-              text: `You are a friendly human assistant for Floractive Training Academy in Birmingham. 
-              Keep your responses simple, helpful, and very human-like. 
-              Answer questions about Nanoplastia courses, Hair Botox treatments, location (The Cube, Birmingham), and prices.
-              
+              text: `You are a helpful human assistant for Floractive Academy. 
+              Keep your responses very short, simple, and casual. 
+              Only answer the customer question directly. 
               User question: ${message || 'Hello'}`
             }]
           }]
@@ -62,7 +61,7 @@ export default {
         });
       }
       
-      const botResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm having a little trouble thinking of the right words. Could you ask me something else?";
+      const botResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm not sure how to answer that.";
 
       return new Response(JSON.stringify({ response: botResponse }), {
         headers: {
